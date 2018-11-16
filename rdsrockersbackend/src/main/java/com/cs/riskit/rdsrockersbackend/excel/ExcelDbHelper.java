@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -30,7 +31,8 @@ public class ExcelDbHelper {
 			h2Datasource.setUser("sa");
 			ds = h2Datasource;
 			Connection con = ds.getConnection();
-			StringBuffer sql = new StringBuffer("DROP TABLE IF EXISTS " + tableName + "; CREATE TABLE " + tableName + "(");
+			StringBuffer sql = new StringBuffer(
+					"DROP TABLE IF EXISTS " + tableName + "; CREATE TABLE " + tableName + "(");
 			for (int i = 0; i < workBookColumns.size(); i++) {
 				sql.append(" " + workBookColumns.get(i) + " ");
 				sql.append(" " + workBookDataTypes.get(i) + ",");
@@ -55,28 +57,32 @@ public class ExcelDbHelper {
 			ds = h2Datasource;
 			Connection con = ds.getConnection();
 			StringBuffer sql = new StringBuffer();
-			
+
 			Sheet datatypeSheet = workbook.getSheetAt(0);
 			Iterator<Row> iterator = datatypeSheet.iterator();
 			iterator.next();
 			while (iterator.hasNext()) {
 				sql.append("INSERT INTO " + tableName + " VALUES(");
-				
+
 				Row currentRow = iterator.next();
 				Iterator<Cell> cellIterator = currentRow.iterator();
 
 				while (cellIterator.hasNext()) {
 					Cell currentCell = cellIterator.next();
 					if (currentCell.getCellTypeEnum() == CellType.STRING) {
-						//System.out.print(currentCell.getStringCellValue() + "	");
-						sql.append(" '"+currentCell.getStringCellValue()+"' ,");
+						// System.out.print(currentCell.getStringCellValue() + " ");
+						sql.append(" '" + currentCell.getStringCellValue() + "' ,");
 					} else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
-						//System.out.print(currentCell.getNumericCellValue() + "	");
-						sql.append(" "+currentCell.getNumericCellValue()+" ,");
+						if (HSSFDateUtil.isCellDateFormatted(currentCell)) {
+							// System.out.println (currentCell.getDateCellValue());
+							sql.append(" '" + ExcelHelper.dateToString(currentCell.getDateCellValue()) + "' ,");
+							continue;
+						}
+						sql.append(" " + currentCell.getNumericCellValue() + " ,");
 					}
 				}
 				sql.deleteCharAt(sql.length() - 1);
-				sql.append(");"+System.lineSeparator());
+				sql.append(");" + System.lineSeparator());
 			}
 			System.out.println(sql.toString());
 			PreparedStatement ps = con.prepareStatement(sql.toString());

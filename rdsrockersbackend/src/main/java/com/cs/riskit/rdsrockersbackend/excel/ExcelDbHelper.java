@@ -20,10 +20,6 @@ public class ExcelDbHelper {
 
 	public static DataSource ds;
 
-	{
-
-	}
-
 	public static void createTable(String tableName, List<String> workBookColumns, List<String> workBookDataTypes) {
 		try {
 			JdbcDataSource h2Datasource = new JdbcDataSource();

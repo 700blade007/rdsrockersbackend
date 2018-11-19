@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.cs.riskit.rdsrockersbackend.excel.ExcelReader;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
@@ -33,7 +36,9 @@ public class FileUploadController {
                 .path("/downloadFile/")
                 .path(fileName)
                 .toUriString();
-
+        
+        ExcelReader.readExcel();
+        
         return new UploadFileResponse(fileName, fileDownloadUri,
                 file.getContentType(), file.getSize());
     }

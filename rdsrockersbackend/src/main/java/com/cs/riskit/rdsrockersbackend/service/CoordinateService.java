@@ -19,8 +19,12 @@ public class CoordinateService {
 		return coordinateDao.getCoordinates(a);
 	}
 	
-	public List<String> getColumnNames() {
-		return coordinateDao.getColumnNames();
+	public List<String> getXColumnNames() {
+		return coordinateDao.getXColumnNames();
+	}
+	
+	public List<String> getYColumnNames() {
+		return coordinateDao.getYColumnNames();
 	}
 
 }

@@ -4,7 +4,14 @@ public class Axis {
 	
 	private String Xaxis;
 	private String Yaxis;
+	private String func;
 	
+	public String getFunc() {
+		return func;
+	}
+	public void setFunc(String func) {
+		this.func = func;
+	}
 	public String getXaxis() {
 		return Xaxis;
 	}

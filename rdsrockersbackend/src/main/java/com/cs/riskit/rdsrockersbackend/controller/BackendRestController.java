@@ -29,8 +29,13 @@ public class BackendRestController {
 		return coordinateService.getCoordinates(a);
 	}
 	
-	@RequestMapping("/getcolumnnames")
+	@RequestMapping("/getxcolumnnames")
 	public List<String> getColumnNames(){
-		return coordinateService.getColumnNames();
+		return coordinateService.getXColumnNames();
+	}
+	
+	@RequestMapping("/getycolumnnames")
+	public List<String> getYColumnNames(){
+		return coordinateService.getYColumnNames();
 	}
 }

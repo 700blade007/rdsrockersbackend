@@ -39,8 +39,11 @@ public class ExcelHelper {
 				}
 				workBookDataTypes.add("int");
 			}
-
+			else if (currentCell.getCellTypeEnum() == CellType.FORMULA) 
+				workBookDataTypes.add("int");
 		}
+		for(String s : workBookDataTypes)
+			System.out.println(s);
 		return workBookDataTypes;
 	}
 
@@ -56,7 +59,7 @@ public class ExcelHelper {
 		while (cellIterator.hasNext()) {
 			Cell currentCell = cellIterator.next();
 			String temp = currentCell.getStringCellValue();
-			temp = temp.trim().replaceAll("\\s+", "_");
+			temp = temp.trim().replaceAll("\\s+", "_").replaceAll("-", "_");
 			System.out.println(temp);
 			workBookColumns.add(temp);
 		}

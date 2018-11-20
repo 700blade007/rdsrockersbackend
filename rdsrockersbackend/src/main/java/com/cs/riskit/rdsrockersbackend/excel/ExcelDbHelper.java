@@ -76,6 +76,9 @@ public class ExcelDbHelper {
 						}
 						sql.append(" " + currentCell.getNumericCellValue() + " ,");
 					}
+					else if (currentCell.getCellTypeEnum() == CellType.FORMULA) {
+						sql.append(" " + currentCell.getNumericCellValue() + " ,");
+					}
 				}
 				sql.deleteCharAt(sql.length() - 1);
 				sql.append(");" + System.lineSeparator());
